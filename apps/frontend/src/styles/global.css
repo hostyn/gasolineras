@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@supports (scrollbar-color: auto) {
+  * {
+    scrollbar-color: #aaa transparent;
+    scrollbar-width: thin;
+  }
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src: url('NotoSans.ttf') format('truetype-variations');
+  font-weight: 100 900; 
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('Roboto.ttf') format('truetype-variations');
+  font-weight: 100 900; 
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: 'Roboto', sans-serif;
+}

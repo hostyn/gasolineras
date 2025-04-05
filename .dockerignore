@@ -1,0 +1,12 @@
+node_modules
+.turbo
+.direnv
+.vscode
+.astro
+.dist
+.env*
+Dockerfile
+docker-compose.yml
+flake.lock
+flake.nix
+README.md

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "DATABASE_URL"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "check-types": {
+      "dependsOn": [
+        "^check-types"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "@repo/database#push"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "push": {
+      "cache": false
+    },
+    "generate": {
+      "cache": false,
+      "interactive": true,
+      "outputs": [
+        "migrations/**"
+      ],
+      "inputs": [
+        "src/schema.ts"
+      ]
+    }
+  }
+}

@@ -1,0 +1,52 @@
+FROM node:22-alpine AS alpine
+RUN apk update
+RUN apk add --no-cache libc6-compat
+
+FROM alpine AS base
+RUN npm install pnpm turbo --global
+RUN pnpm config set store-dir ~/.pnpm-store
+
+FROM base AS pruner
+WORKDIR /app
+COPY . .
+RUN turbo prune --scope=scraper --docker
+
+FROM base AS build-deps
+WORKDIR /app
+
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=pruner /app/out/json/ .
+
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile
+
+FROM base AS prod-deps
+WORKDIR /app
+
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=pruner /app/out/json/ .
+
+RUN --mount=type=cache,id=pnpm,target=~/.pnpm-store pnpm install --frozen-lockfile -P
+
+FROM build-deps AS builder
+WORKDIR /app
+
+COPY --from=pruner /app/out/full/ .
+
+RUN turbo build --filter=scraper
+
+FROM alpine AS runner
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+USER nodejs
+
+COPY --from=prod-deps --chown=nodejs:nodejs /app /app
+COPY --from=builder --chown=nodejs:nodejs /app/apps/scraper/dist /app/apps/scraper/dist
+COPY --from=builder --chown=nodejs:nodejs /app/packages/database/dist /app/packages/database/dist
+COPY --from=builder --chown=nodejs:nodejs /app/packages/database/drizzle /app/packages/database/drizzle
+WORKDIR /app/apps/scraper
+
+ENV NODE_ENV=production
+
+CMD ["node", "dist/index.js"]
