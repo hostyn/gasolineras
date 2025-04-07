@@ -47,6 +47,8 @@ COPY --from=builder --chown=nodejs:nodejs /app/packages/database/dist /app/packa
 COPY --from=builder --chown=nodejs:nodejs /app/packages/database/drizzle /app/packages/database/drizzle
 WORKDIR /app/apps/scraper
 
+LABEL org.opencontainers.image.source=https://github.com/hostyn/gasolineras
+
 ENV NODE_ENV=production
 
 CMD ["node", "dist/index.js"]

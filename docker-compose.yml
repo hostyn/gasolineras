@@ -11,21 +11,3 @@ services:
       retries: 1
       start_interval: 5s
       start_period: 1s
-
-  astro:
-    image: astro-test
-    ports:
-      - "4321:4321"
-    environment:
-      - DATABASE_URL=postgresql://postgres:supersecretpassword@postgres:5432/postgres
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  scraper:
-    image: scraper-test
-    environment:
-      - DATABASE_URL=postgresql://postgres:supersecretpassword@postgres:5432/postgres
-    depends_on:
-      postgres:
-        condition: service_healthy

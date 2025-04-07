@@ -42,12 +42,14 @@ RUN adduser --system --uid 1001 nodejs
 USER nodejs
 
 COPY --from=prod-deps --chown=nodejs:nodejs /app /app
+COPY --from=builder --chown=nodejs:nodejs /app/apps/frontend/dist /app/apps/frontend/dist
 WORKDIR /app/apps/frontend
-COPY --from=builder --chown=nodejs:nodejs /app/apps/frontend/dist ./dist
 
 ENV HOST=0.0.0.0
 ENV PORT=4321
 ENV NODE_ENV=production
 EXPOSE 4321
+
+LABEL org.opencontainers.image.source=https://github.com/hostyn/gasolineras
 
 CMD ["node", "dist/server/entry.mjs"]

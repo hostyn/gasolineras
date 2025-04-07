@@ -5,6 +5,14 @@
     "DATABASE_URL"
   ],
   "tasks": {
+    "frontend#build": {
+      "dependsOn": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env"
+      ],
+      "outputs": []
+    },
     "build": {
       "dependsOn": [
         "^build"
