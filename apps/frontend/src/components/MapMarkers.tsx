@@ -84,7 +84,22 @@ export default function MapMarkers() {
           })}
         >
           <Popup>
-            {station.name} <br /> {station.price}
+            <span className="text-xs font-semibold tracking-tight text-slate-500">
+              {station.name}
+            </span>
+            <br />
+            <span
+              className="text-sm tracking-tight font-semibold text-slate-800"
+              style={{
+                color: `hsl(${stations.maxPrice - stations.minPrice == 0 ? 128 : (1 - (Number(station.price) - stations.minPrice) / (stations.maxPrice - stations.minPrice)) * 128}, 50%, 40%)`,
+              }}
+            >
+              {Intl.NumberFormat("es-ES", {
+                style: "currency",
+                currency: "EUR",
+                minimumFractionDigits: 3,
+              }).format(Number(station.price))}
+            </span>
           </Popup>
         </Marker>
       ))}

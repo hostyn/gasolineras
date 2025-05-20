@@ -14,8 +14,11 @@ export const updateBounds = () => {
 
   const bounds = map.getBounds();
 
-  // TODO: Calcular la posicion del sidebar
-  const mapSidebarLocation = map.containerPointToLatLng([400, 0]);
+  const windowWidth = window.innerWidth;
+  const mapSidebarLocation =
+    windowWidth >= 768
+      ? map.containerPointToLatLng([400, 0])
+      : map.containerPointToLatLng([0, 0]);
 
   $bounds.set({
     n: mapSidebarLocation.lat.toString(),

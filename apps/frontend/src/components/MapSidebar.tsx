@@ -36,7 +36,7 @@ export default function MapSidebar() {
   );
 
   return (
-    <div className="absolute top-0 left-0 flex flex-col bg-white w-sm max-h-[calc(100vh-var(--spacing)*8)] h-screen m-4 p-4 rounded gap-2">
+    <div className="hidden md:flex absolute top-0 left-0 flex-col bg-white w-sm max-w-[calc(100vw-var(--spacing)*8)] max-h-[calc(100vh-var(--spacing)*8)] h-screen m-4 p-4 rounded gap-2">
       <ProductSelect />
 
       <div
@@ -47,12 +47,14 @@ export default function MapSidebar() {
           <button
             onClick={() => {
               // TODO: Centrar la gasolinera en el mapa
+              map?.closePopup();
               map?.flyTo([station.location.y, station.location.x], 13, {
                 duration: 1,
               });
               $selectedStation.set(station.id);
             }}
             onDoubleClick={() => {
+              map?.closePopup();
               map?.flyTo([station.location.y, station.location.x], 17, {
                 duration: 1,
               });

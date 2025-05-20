@@ -4,6 +4,8 @@ import MapMarkers from "./MapMarkers";
 import { $bounds, updateBounds } from "../store/bounds";
 import { $map } from "../store/map";
 import MapSidebar from "./MapSidebar";
+import MapModalSheet from "./MapModalSheet";
+import { FloatingProductSelect } from "./FloatingProductSelect";
 
 export default function Map() {
   return (
@@ -33,6 +35,8 @@ export default function Map() {
         <MapMarkers />
       </MapContainer>
       <MapSidebar />
+      <MapModalSheet />
+      <FloatingProductSelect />
     </div>
   );
 }
