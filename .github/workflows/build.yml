@@ -27,6 +27,7 @@ jobs:
         with:
           file: Dockerfile.frontend
           push: true
+          target: runner
           tags: |
             ghcr.io/${{ github.actor }}/gasolineras-frontend:latest
             ghcr.io/${{ github.actor }}/gasolineras-frontend:${{ github.sha }}
@@ -36,6 +37,7 @@ jobs:
         with:
           file: Dockerfile.scraper
           push: true
+          target: runner
           tags: |
             ghcr.io/${{ github.actor }}/gasolineras-scraper:latest
             ghcr.io/${{ github.actor }}/gasolineras-scraper:${{ github.sha }}
