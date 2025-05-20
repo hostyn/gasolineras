@@ -7,8 +7,5 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "paths": {
-      "@repo/database": ["../../packages/database/src/index.ts"],
-    }
   }
 }

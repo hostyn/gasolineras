@@ -6,9 +6,11 @@ import { scrapePlenoil } from "./scrapers/plenoil";
 import { migrateDatabase } from "@repo/database";
 
 const main = async () => {
-  console.time("✅ Database migrated");
-  await migrateDatabase();
-  console.timeEnd("✅ Database migrated");
+  if (process.env.NODE_ENV === "production") {
+    console.time("✅ Database migrated");
+    await migrateDatabase();
+    console.timeEnd("✅ Database migrated");
+  }
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
